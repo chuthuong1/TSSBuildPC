@@ -35,7 +35,7 @@ async function exportExcel(categories, build, money) {
 
   // Chèn Logo (Sử dụng tọa độ tuyệt đối để tránh lỗi hiển thị khi gộp ô)
     try {
-        const response = await fetch("images/TssLogo1.jpg");
+        const response = await fetch("images/background.jpg");
         const imageBuffer = await response.arrayBuffer();
         const logoId = workbook.addImage({
             buffer: imageBuffer,
