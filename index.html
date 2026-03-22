@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Build PC</title>
+  <img src="images/TssLogo.jpg" class="logo">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h2>TSS XÂY DỰNG CẤU HÌNH PC</h2>
+    <button onclick="resetBuild()">LÀM MỚI ↻</button>
+    <div class="total">Tổng: <span id="totalTop">0</span></div>
+  </div>
+
+  <table class="pc-table">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Bảo hành</th>
+      </tr>
+    </thead>
+    <tbody id="list"></tbody>
+  </table>
+
+  <div class="footer">
+    Tổng tiền: <span id="totalBottom">0</span>
+  </div>
+<button onclick="exportExcel()">Xuất Excel</button>
+</div>
+
+
+
+<script src="/js/script.js" ></script>
+</body>
+</html>
