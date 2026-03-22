@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Build PC</title>
-
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/Downloadimg.css">
 </head>
 <body>
 
@@ -35,20 +35,34 @@
   <div class="footer">
     Tổng tiền: <span id="totalBottom">0</span>
   </div>
-<button onclick="handleExport()">Xuất Excel</button>
+  
+  <div style="margin-top: 15px; display: flex; gap: 10px;">
+    <button onclick="handleExport()">Xuất Excel</button>
+    <button onclick="previewImage()">Tải ảnh xuống</button>
+  </div>
+
+</div> <div id="previewModal" class="preview-modal" style="display: none;">
+  <div class="preview-content">
+    <span class="close-btn" onclick="closePreview()">&times;</span>
+    <h3 style="margin-top: 0; color: #1D3F95;">Xem trước ảnh bảng giá</h3>
+    
+    <img id="previewImageSrc" src="" alt="Ảnh xem trước">
+    
+    <div class="modal-actions">
+      <button onclick="downloadFromPreview()" style="background: green; color: white;">✔ Xác nhận Tải xuống</button>
+      <button onclick="closePreview()" style="background: gray; color: white;">✖ Hủy</button>
+    </div>
+  </div>
 </div>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<!-- 1. Thư viện hỗ trợ (Bắt buộc có trước) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-    <!-- 2. File chứa hàm exportExcel -->
-    <script src="js/exportExcel.js"></script>
-
-    <!-- 3. File logic giao diện -->
-    <script src="js/script.js"></script>
+<script src="js/exportExcel.js"></script>
+<script src="js/script.js"></script>
+<script src="js/Downloadimg.js"></script>
 
 </body>
 </html>
