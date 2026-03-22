@@ -92,11 +92,10 @@ function update(category, field, value) {
 }
 // Hàm xuất Excel
 async function exportExcel() {
-  // 1. Khởi tạo file Excel
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet("Build PC");
 
-  // Cài đặt độ rộng cho các cột để file hiển thị đẹp ngay khi mở
+  // Cài đặt độ rộng cho các cột
   sheet.columns = [
     { width: 5 },   // Cột A: STT
     { width: 40 },  // Cột B: Tên sản phẩm
@@ -106,9 +105,38 @@ async function exportExcel() {
     { width: 20 }   // Cột F: Thành tiền
   ];
 
-  // 2. CHÈN LOGO
+  // 1. TẠO Ô TIÊU ĐỀ VÀ CHÈN LOGO (CÙNG DÒNG 1)
+  
+  // Ghi chữ vào dòng 1
+  const titleRow = sheet.addRow(["XÂY DỰNG CẤU HÌNH PC"]);
+  sheet.mergeCells('A1:E1'); // Gộp từ cột A đến D thành 1 ô siêu to
+  sheet.getRow(1).height = 100; // Kéo giãn chiều cao ô lên 100 để có chỗ chứa logo
+  
+  // Format chữ: To, in đậm, màu xanh, và căn giữa ô
+  titleRow.font = { name: 'Arial', size: 16, bold: true, color: { argb: 'FF0054A6' } }; 
+  titleRow.alignment = { vertical: 'middle', horizontal: 'center' };
+
+  const rightHeader = sheet.getCell('F1');
+    rightHeader.value = {
+      richText: [
+        { 
+          font: { bold: true, size: 14, color: { argb: 'FFFF0000' } }, 
+          text: "TSS\n" 
+        },
+        { 
+          font: { size: 9, color: { argb: 'FF333333' } }, 
+          text: "86 ngõ 68 Phú Diễn\nBắc Từ Liêm, Hà Nội" 
+        },
+        { 
+          font: { size: 11, color: { argb: 'FF333333' } },
+          text: "Hotline: 0\n" 
+        }
+      ]
+    };
+    rightHeader.alignment = { vertical: 'middle', horizontal: 'right', wrapText: true };
+    
+  // Chèn hình ảnh vào góc trái của ô vừa gộp
   try {
-    // Tải ảnh từ thư mục (Phải chạy web qua Live Server thì mới tải được ảnh)
     const response = await fetch("images/TssLogo.jpg");
     const imageBuffer = await response.arrayBuffer();
     const logoId = workbook.addImage({
@@ -116,34 +144,29 @@ async function exportExcel() {
       extension: 'jpeg',
     });
 
-    // Mở rộng dòng đầu tiên cao lên để lấy không gian chứa logo
-    sheet.getRow(1).height = 100;
-
-    // Chèn logo vào file Excel (căn ở khoảng cột B)
     sheet.addImage(logoId, {
-      tl: { col: 1, row: 0 }, // Vị trí bắt đầu
-      ext: { width: 150, height: 120 } // Độ to nhỏ của logo
+      // tl: Tọa độ bắt đầu (Top-Left). row: 0 là dòng 1, col: 0.2 là nhích cách mép trái cột A một tí cho đẹp
+      tl: { col: 0.2, row: 0.1 }, 
+      ext: { width: 120, height: 120 } // Kích thước logo
     });
   } catch (error) {
-    console.warn("Không thể chèn logo. Hãy chắc chắn bạn đang chạy web bằng Live Server.", error);
+    console.warn("Không thể chèn logo. Hãy chạy qua Live Server.", error);
   }
+  const subTitleRow = sheet.addRow(["BẢNG BÁO GIÁ THIẾT BỊ"]);
+    sheet.mergeCells(`A2:F2`);
+    subTitleRow.font = { name: 'Arial', size: 16, bold: true, color: { argb: 'FF000000' } }; // In đậm, màu đen
+    subTitleRow.alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.getRow(2).height = 25;
 
-  // 3. TIÊU ĐỀ
-  const titleRow = sheet.addRow(["TSS BUILD PC"]);
-  sheet.mergeCells(`A2:F2`); // Gộp ô
-  titleRow.font = { name: 'Arial', size: 18, bold: true, color: { argb: 'FF0054A6' } }; // Chữ in đậm, màu xanh
-  titleRow.alignment = { vertical: 'middle', horizontal: 'center' };
-  sheet.getRow(2).height = 30;
-
-  sheet.addRow([]); // Thêm 1 dòng trống cách điệu
-
-  // 4. TIÊU ĐỀ CÁC CỘT (Có màu nền)
+  // ==========================================
+  // 2. TIÊU ĐỀ CÁC CỘT CỦA BẢNG (DÒNG 3)
+  // ==========================================
   const headerRow = sheet.addRow(["STT", "Tên sản phẩm", "Giá", "Số lượng", "Bảo hành", "Thành tiền"]);
   headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } }; // Chữ trắng
   headerRow.alignment = { horizontal: 'center', vertical: 'middle' };
   headerRow.height = 25;
   
-  // Tô màu nền xanh cho thanh tiêu đề cột
+  // Tô màu nền xanh cho thanh tiêu đề
   headerRow.eachCell((cell) => {
     cell.fill = {
       type: 'pattern',
@@ -152,7 +175,9 @@ async function exportExcel() {
     };
   });
 
-  // 5. ĐIỀN DỮ LIỆU
+  // ==========================================
+  // 3. ĐIỀN DỮ LIỆU
+  // ==========================================
   let total = 0;
   categories.forEach((cat, i) => {
     const item = build[cat] || {};
@@ -173,29 +198,90 @@ async function exportExcel() {
       money(sum)
     ]);
     
-    // Căn giữa cho cột STT, Số lượng, Bảo hành
+    // Căn giữa cho STT, Số lượng, Bảo hành
     row.getCell(1).alignment = { horizontal: 'center' };
     row.getCell(4).alignment = { horizontal: 'center' };
     row.getCell(5).alignment = { horizontal: 'center' };
   });
 
-  // 6. DÒNG TỔNG CỘNG
-  const totalRow = sheet.addRow(["", "", "", "", "Tổng cộng", money(total)]);
-  totalRow.font = { bold: true, size: 12, color: { argb: 'FFFF0000' } }; // Chữ đỏ in đậm
+  // ==========================================
+  // 4. DÒNG TỔNG CỘNG VÀ KẺ BẢNG
+  // ==========================================
+  const totalRow = sheet.addRow(["", "", "", "", "Tổng chi phí", money(total)]);
+  totalRow.font = { bold: true, size: 12, color: { argb: 'FFFF0000' } }; // Chữ đỏ
 
-  // 7. KẺ KHUNG (Border) cho bảng
-  const startRow = 4; // Dòng 4 là dòng chứa Header
-  const endRow = sheet.rowCount;
+ const startRow = 4; // Dòng tiêu đề "STT", "Tên sản phẩm"...
+  const endRow = sheet.rowCount; // Dòng "Tổng cộng"
+
   for (let i = startRow; i <= endRow; i++) {
-    sheet.getRow(i).eachCell({ includeEmpty: true }, (cell) => {
+    const row = sheet.getRow(i);
+    row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+      // Thiết lập viền mặc định cho tất cả các ô là nét mảnh (thin)
       cell.border = {
-        top: { style: 'thin' }, left: { style: 'thin' },
-        bottom: { style: 'thin' }, right: { style: 'thin' }
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
       };
+
+      // Tùy chỉnh để viền bao quanh bảng to hơn (medium hoặc thick)
+      // 1. Viền trên cùng của hàng tiêu đề
+      if (i === startRow) {
+        cell.border.top = { style: 'medium' };
+      }
+      // 2. Viền dưới cùng của hàng Tổng cộng
+      if (i === endRow) {
+        cell.border.bottom = { style: 'medium' };
+      }
+      // 3. Viền bên trái của cột đầu tiên (Cột A)
+      if (colNumber === 1) {
+        cell.border.left = { style: 'medium' };
+      }
+      // 4. Viền bên phải của cột cuối cùng (Cột F)
+      if (colNumber === 6) {
+        cell.border.right = { style: 'medium' };
+      }
     });
   }
+  // ==========================================
+  // 5. THÊM DÒNG LƯU Ý Ở CUỐI FILE EXCEL
+  // ==========================================
+  sheet.addRow([]); // Thêm 1 dòng trống cho thoáng
+  
+    const combinedNoteRow = sheet.addRow([]);
+    sheet.mergeCells(`A${combinedNoteRow.number}:F${combinedNoteRow.number}`);
+    
+    // Chiều cao dòng khoảng 60 để hiển thị đủ 2 dòng văn bản
+    combinedNoteRow.height = 60;
 
-  // 8. TẢI FILE VỀ MÁY
+    combinedNoteRow.getCell(1).value = {
+      richText: [
+        // Đoạn 1: Quý khách lưu ý (In đậm)
+        { font: { bold: true, italic: true, size: 11, color: { argb: 'FF555555' } }, text: "Quý khách lưu ý: " },
+        { font: { italic: true, size: 11, color: { argb: 'FF555555' } }, text: "Giá bán, khuyến mại của sản phẩm và tình trạng còn hàng có thể bị thay đổi bất cứ lúc nào mà không kịp báo trước.\n" }, 
+        
+        // Đoạn 2: Liên hệ + Hotline & Email (In đậm)
+        { font: { italic: true, size: 11, color: { argb: 'FF555555' } }, text: "Mọi thông tin chi tiết xin vui lòng liên hệ " },
+        { font: { bold: true, italic: true, size: 11, color: { argb: 'FF555555' } }, text: "Hotline : 0912074444" },
+        { font: { italic: true, size: 11, color: { argb: 'FF555555' } }, text: " - " },
+        { font: { bold: true, italic: true, size: 11, color: { argb: 'FF555555' } }, text: "Email: khanhchungcomputer@gmail.com" }
+      ]
+    };
+
+    // Căn lề trái, tự động xuống dòng và căn giữa theo chiều dọc
+    combinedNoteRow.getCell(1).alignment = { 
+      wrapText: true, 
+      vertical: 'middle', 
+      horizontal: 'left' 
+    };
+
+    // Dòng cuối cùng cảm ơn khách hàng
+    const noteRow3 = sheet.addRow(["Xin chân thành cảm ơn quý khách đã sử dụng dịch vụ của TSS!"]);
+    sheet.mergeCells(`A${noteRow3.number}:F${noteRow3.number}`);
+    noteRow3.font = { italic: true, size: 15, bold: true, color: { argb: 'FFFF0000' } };
+    
+
+  // Tải file
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   saveAs(blob, "build_pc.xlsx");

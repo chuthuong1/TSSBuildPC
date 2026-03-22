@@ -49,7 +49,7 @@ body::before {
   background-position: center;
   background-size: 650px; /* Độ to nhỏ của logo */
   
-  opacity: 0.15; /* Độ mờ của logo  */
+  opacity: 0.05; /* Độ mờ của logo  */
   
   /* Thuộc tính CỰC KỲ QUAN TRỌNG giúp chuột "xuyên qua" ảnh để bạn vẫn gõ chữ được bình thường */
   pointer-events: none; 
