@@ -9,40 +9,51 @@ body::before {
   position: fixed;
   inset: 0;
 
-  background-image: url("../images/TssLogo.jpg");
+  background-image: url("../images/background.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 400px;
 
-  opacity: 0.035;              
+  opacity: 0.1;              
   filter: grayscale(100%);    
 
   z-index: -1;
 }
 
-/* 🔥 LỚP OVERLAY (làm nền đẹp hơn) */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
 
-  background: radial-gradient(
-    circle at center,
-    rgba(255,255,255,0.6) 0%,
-    rgba(245,245,245,0.9) 70%
-  );
-
-  z-index: -1;
-}
-
+/* .container {
+  width: 900px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+} */
 .container {
   width: 900px;
   margin: auto;
   background: white;
   padding: 20px;
   border-radius: 10px;
+  position: relative; /* Thêm dòng này để neo giữ watermark ở trong khung */
 }
 
+/* Thêm class này để tạo watermark ngay trên bề mặt bảng */
+.container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+  /* Đường dẫn ảnh của bạn */
+  background-image: url("../images/background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 650px; /* Độ to nhỏ của logo */
+  
+  opacity: 0.05; /* Độ mờ của logo  */
+  
+  /* Thuộc tính CỰC KỲ QUAN TRỌNG giúp chuột "xuyên qua" ảnh để bạn vẫn gõ chữ được bình thường */
+  pointer-events: none; 
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -96,6 +107,124 @@ body::after {
 .pc-table th:nth-child(5),
 .pc-table td:nth-child(5) {
   width: 20%; /* BẢO HÀNH */
+}
+
+/* INPUT */
+.pc-table input {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+/* highlight tên */
+.pc-table td:nth-child(2) input {
+  font-weight: bold;
+}
+
+.pc-table tr:hover {
+  background: #f9f9f9;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  color: red;
+}
+
+.warranty-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.warranty-box input {
+  height: 28px;
+  padding: 4px;
+}
+
+.warranty-box span {
+  line-height: 28px;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+/* Thêm đoạn này để xóa khoảng lề dư thừa của thẻ h2 */
+.logo-title h2 {
+  margin: 0; 
+}
+
+.container {
+  width: 900px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total {
+  font-size: 22px;
+  font-weight: bold;
+  color: green;
+}
+
+/* TABLE */
+.pc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.pc-table th, .pc-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.pc-table th {
+  background: #f0f0f0;
+}
+
+/* 🔥 CHỈNH KÍCH THƯỚC CỘT */
+.pc-table th:nth-child(1),
+.pc-table td:nth-child(1) {
+  width: 5%;
+}
+
+.pc-table th:nth-child(2),
+.pc-table td:nth-child(2) {
+  width: 53%; /* TÊN SẢN PHẨM  */
+}
+
+.pc-table th:nth-child(3),
+.pc-table td:nth-child(3) {
+  width: 23%; /* Giá  */
+}
+
+.pc-table th:nth-child(4),
+.pc-table td:nth-child(4) {
+  width: 7%; /* SỐ LƯỢNG  */
+}
+
+.pc-table th:nth-child(5),
+.pc-table td:nth-child(5) {
+  width: 15%; /* BẢO HÀNH */
 }
 
 /* INPUT */
