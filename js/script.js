@@ -43,15 +43,16 @@ function render() {
         </td>
 
         <td>
-          <input type="number"
-            value="${qty}"
-            onchange="update('${cat}', 'qty', this.value)">
+          <input type="text"
+            value="${price === 0 ? '0' : price.toLocaleString('vi-VN')}"
+            oninput="let v = this.value.replace(/[^0-9]/g, ''); this.value = v ? parseInt(v).toLocaleString('vi-VN') : '';"
+            onchange="update('${cat}', 'price', this.value.replace(/\\./g, ''))">
         </td>
 
         <td>
           <input type="number"
-            value="${price}"
-            onchange="update('${cat}', 'price', this.value)">
+            value="${qty}"
+            onchange="update('${cat}', 'qty', this.value)">
         </td>
 
         <td>

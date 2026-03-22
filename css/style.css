@@ -14,8 +14,8 @@ body::before {
   background-position: center;
   background-size: 400px;
 
-  opacity: 0.035;              /* 🔥 chuẩn nhất nền trắng */
-  filter: grayscale(100%);     /* 🔥 bắt buộc */
+  opacity: 0.035;              
+  filter: grayscale(100%);    
 
   z-index: -1;
 }
