@@ -12,7 +12,7 @@
 
   <div class="header">
    <div class="logo-title">
-      <img src="images/TssLogo.jpg" class="logo" >
+      <img src="images/TSSLogo1.jpg" class="logo" >
       <h2>XÂY DỰNG CẤU HÌNH PC</h2>
     </div>
     <button onclick="resetBuild()">LÀM MỚI ↻</button>
@@ -35,14 +35,20 @@
   <div class="footer">
     Tổng tiền: <span id="totalBottom">0</span>
   </div>
-<button onclick="exportExcel()">Xuất Excel</button>
+<button onclick="handleExport()">Xuất Excel</button>
 </div>
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-<script src="/js/script.js" ></script>
+<!-- 1. Thư viện hỗ trợ (Bắt buộc có trước) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- 2. File chứa hàm exportExcel -->
+    <script src="js/exportExcel.js"></script>
+
+    <!-- 3. File logic giao diện -->
+    <script src="js/script.js"></script>
 
 </body>
 </html>
