@@ -21,7 +21,7 @@ async function exportExcel(categories, build, money) {
         richText: [
             { font: { bold: true, size: 16, color: { argb: 'FFFF0000' } }, text: "Công nghệ và giải pháp TSS\n" },
             { font: { size: 10, color: { argb: 'FF333333' } }, text: "86 ngõ 68 Phú Diễn\nBắc Từ Liêm, Hà Nội\n" },
-            { font: { bold: true, size: 11, color: { argb: 'FF000000' } }, text: "Hotline: 09" }
+            { font: { bold: true, size: 11, color: { argb: 'FF000000' } }, text: "Hotline: 0979579956" }
         ]
     };
 
@@ -70,7 +70,7 @@ async function exportExcel(categories, build, money) {
     sheet.addRow([]); // Dòng 3 hoàn toàn trống, không kẻ gì cả
 
     // 3. DÒNG 4: TIÊU ĐỀ CỘT (MÀU ĐỎ)
-    const headerRow = sheet.addRow(["STT", "Tên sản phẩm", "Giá", "Số lượng", "Bảo hành", "Thành tiền"]);
+    const headerRow = sheet.addRow(["STT", "Tên sản phẩm", "Giá", "Số lượng", "Thành tiền","Bảo hành"]);
     headerRow.height = 25;
     headerRow.eachCell((cell) => {
         cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1D3F95' } };
@@ -96,8 +96,14 @@ async function exportExcel(categories, build, money) {
             const sum = price * qty;
             total += sum;
 
-            const row = sheet.addRow([stt++, name, money(price), qty, item.warranty ? item.warranty + " tháng" : "", money(sum)]);
-            
+            const row = sheet.addRow([
+                stt++, 
+                name, 
+                money(price), 
+                qty, 
+                money(sum), 
+                item.warranty ? item.warranty + " tháng" : "" 
+            ]);
             row.height = 30; // Tăng độ cao dòng một chút cho thoáng
 
             for (let i = 1; i <= 6; i++) {
@@ -115,21 +121,21 @@ async function exportExcel(categories, build, money) {
         }
     });
 
-    // 5. DÒNG TỔNG CỘNG (Design lại cho sang)
-    const totalRow = sheet.addRow(["", "", "", "", "TỔNG CỘNG", money(total)]);
+    // 5. DÒNG TỔNG CỘNG 
+    const totalRow = sheet.addRow(["", "", "", "", money(total), ""]); 
     totalRow.height = 30;
 
     // Gộp ô từ 1 đến 4 nếu muốn, hoặc chỉ style 2 ô cuối
     for (let i = 1; i <= 6; i++) {
         const cell = totalRow.getCell(i);
-        if (i >= 5) {
-            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE6E6E6' } }; // Màu xám nhạt sang trọng hơn
-            cell.font = { bold: true, color: { argb: 'FFFF0000' } }; // Chữ đỏ cho nổi bật tổng tiền
+        if (i == 5) {
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE6E6E6' } }; 
+            cell.font = { bold: true, color: { argb: 'FFFF0000' } }; 
             cell.border = {
-                top: { style: 'thin', color: { argb: 'FF000000' } },
-                bottom: { style: 'medium', color: { argb: 'FF000000' } }, // Viền dưới cùng đậm
-                left: { style: 'thin', color: { argb: 'FF000000' } },
-                right: { style: 'thin', color: { argb: 'FF000000' } }
+            top: { style: 'thin', color: { argb: 'FF000000' } },
+            bottom: { style: 'medium', color: { argb: 'FF000000' } },
+            left: { style: 'thin', color: { argb: 'FF000000' } },
+            right: { style: 'thin', color: { argb: 'FF000000' } }
             };
         } else {
             // Kẻ viền dưới cho các ô trống để đóng khung bảng
@@ -146,7 +152,7 @@ async function exportExcel(categories, build, money) {
     noteRow.getCell(1).value = {
         richText: [
             { font: { bold: true, italic: true }, text: "Quý khách lưu ý: " },
-            { font: { italic: true }, text: "Giá bán có thể thay đổi bất cứ lúc nào.\nLiên hệ Hotline: 09 - Email: TSS@gmail.com" }
+            { font: { italic: true }, text: "Giá bán có thể thay đổi bất cứ lúc nào.\nLiên hệ Hotline: 0979579956 - Email: TSS@gmail.com" }
         ]
     };
     noteRow.getCell(1).alignment = { wrapText: true, vertical: 'middle' };

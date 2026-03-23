@@ -15,14 +15,14 @@
       <img src="images/background.jpg" class="logo" >
       <h2>XÂY DỰNG CẤU HÌNH PC</h2>
     </div>
-    <button onclick="resetBuild()">LÀM MỚI ↻</button>
-    <div class="total">Tổng: <span id="totalTop">0</span></div>
+    
+    <!-- <div class="total">Tổng: <span id="totalTop">0</span></div> -->
   </div>
 
   <table class="pc-table">
     <thead>
       <tr>
-        <th>STT</th>
+        <th disabled>STT</th>
         <th>Tên sản phẩm</th>
         <th>Giá</th>
         <th>Số lượng</th>
@@ -30,16 +30,28 @@
       </tr>
     </thead>
     <tbody id="list"></tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" class="total-label">TỔNG TIỀN THANH TOÁN:</td>
+        <td class="total-amount"><span id="totalBottom">0</span></td>
+      </tr>
+    </tfoot>
   </table>
 
-  <div class="footer">
-    Tổng tiền: <span id="totalBottom">0</span>
-  </div>
+
   
-  <div style="margin-top: 15px; display: flex; gap: 10px;">
-    <button onclick="handleExport()">Xuất Excel</button>
-    <button onclick="previewImage()">Tải ảnh xuống</button>
-  </div>
+  <div class="button-group">
+  <button class="btn btn-excel" onclick="handleExport()">
+    <span>📊</span> Xuất Excel
+  </button>
+  <button class="btn btn-download" onclick="previewImage()">
+    <span>📥</span> Tải ảnh xuống
+  </button>
+ 
+  <button class="btn btn-reset" onclick="resetBuild()">
+    ↻ LÀM MỚI
+  </button>
+</div>
 
 </div> <div id="previewModal" class="preview-modal" style="display: none;">
   <div class="preview-content">
@@ -50,10 +62,12 @@
     
     <div class="modal-actions">
       <button onclick="downloadFromPreview()" style="background: green; color: white;">✔ Xác nhận Tải xuống</button>
+      <button onclick="printPreview()" style="background: #FF9800; color: white;">🖨️ In Báo Giá</button>
       <button onclick="closePreview()" style="background: gray; color: white;">✖ Hủy</button>
     </div>
   </div>
 </div>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
