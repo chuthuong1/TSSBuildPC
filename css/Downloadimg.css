@@ -64,3 +64,32 @@
   opacity: 0.8;
 }
 
+/* --- TỔNG TIỀN TRONG BẢNG (DESIGN XUẤT ẢNH) --- */
+.pc-table tfoot tr {
+  /* Kẻ viền trên đậm hơn để ngăn cách phần danh sách và phần chốt tiền */
+  border-top: 2px solid #333;
+}
+
+.total-label {
+  text-align: right !important; /* Ép chữ sát sang phải */
+  font-weight: bold;
+  font-size: 16px;
+  color: #1D3F95; /* Chữ màu xanh giống logo cho chuyên nghiệp */
+  font-style: italic;
+  background-color: #f8f9fa; /* Nền xám nhạt */
+  padding-right: 20px !important;
+}
+
+.total-amount {
+  font-weight: bold;
+  font-size: 19px; /* Giảm cỡ chữ 1 xíu cho an toàn với độ rộng ô */
+  color: #e53935;
+  background-color: #fff2cc !important;
+  text-align: right !important; /* Đổi sang right để neo chữ về bên phải */
+  padding-right: 30px !important; /* Chỉ cần đẩy tầm 15px là cách lề rất đẹp */
+  white-space: nowrap !important; 
+}
+/* Ép cột Giá (cột thứ 3) không rớt dòng */
+.pc-table td:nth-child(3) {
+  white-space: nowrap; 
+}

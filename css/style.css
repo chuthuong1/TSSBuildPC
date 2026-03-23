@@ -176,3 +176,40 @@ body::before {
 .btn-reset:hover { background: #f44336; color: white; }
 
 .btn:active { transform: translateY(0); }
+
+/* BẢNG DỮ LIỆU (TABLE) */
+.pc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed; 
+.pc-table th, .pc-table td {
+  border: 1px solid #ddd;
+  padding: 10px 8px;
+  text-align: center;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}}
+/* --- DESIGN TỔNG TIỀN CHO BẢNG BÁO GIÁ --- */
+.total-label {
+  text-align: right !important; /* Ép dòng chữ dồn sang phải */
+  font-weight: bold;
+  font-size: 16px;
+  color: #1D3F95; /* Màu xanh đậm logo */
+  font-style: italic;
+  background-color: #f8f9fa; /* Nền xám nhạt cho chữ */
+  padding-right: 15px !important;
+}
+
+.total-amount {
+  font-weight: bold;
+  font-size: 18px;
+  color: red; /* Tiền màu đỏ cho nổi bật */
+  background-color: #fff2cc !important; /* Nền vàng nhạt giống Excel */
+  text-align: center !important;
+}
+
+/* Kẻ viền dưới cùng của bảng đậm lên để chốt bảng */
+.pc-table tfoot tr td {
+  border-bottom: 2px solid #333 !important;
+}
