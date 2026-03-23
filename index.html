@@ -15,14 +15,14 @@
       <img src="images/background.jpg" class="logo" >
       <h2>XÂY DỰNG CẤU HÌNH PC</h2>
     </div>
-    <button onclick="resetBuild()">LÀM MỚI ↻</button>
-    <div class="total">Tổng: <span id="totalTop">0</span></div>
+    
+    <!-- <div class="total">Tổng: <span id="totalTop">0</span></div> -->
   </div>
 
   <table class="pc-table">
     <thead>
       <tr>
-        <th>STT</th>
+        <th disabled>STT</th>
         <th>Tên sản phẩm</th>
         <th>Giá</th>
         <th>Số lượng</th>
@@ -36,10 +36,17 @@
     Tổng tiền: <span id="totalBottom">0</span>
   </div>
   
-  <div style="margin-top: 15px; display: flex; gap: 10px;">
-    <button onclick="handleExport()">Xuất Excel</button>
-    <button onclick="previewImage()">Tải ảnh xuống</button>
-  </div>
+  <div class="button-group">
+  <button class="btn btn-excel" onclick="handleExport()">
+    <span>📊</span> Xuất Excel
+  </button>
+  <button class="btn btn-download" onclick="previewImage()">
+    <span>📥</span> Tải ảnh xuống
+  </button>
+  <button class="btn btn-reset" onclick="resetBuild()">
+    ↻ LÀM MỚI
+  </button>
+</div>
 
 </div> <div id="previewModal" class="preview-modal" style="display: none;">
   <div class="preview-content">
@@ -54,6 +61,7 @@
     </div>
   </div>
 </div>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
