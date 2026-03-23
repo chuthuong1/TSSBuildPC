@@ -140,3 +140,44 @@ function downloadFromPreview() {
         window.location.reload();
     }, 2000);
 }
+// Hàm in trực tiếp ảnh báo giá
+function printPreview() {
+    if (!currentImageDataUrl) {
+        alert("Không tìm thấy ảnh để in!");
+        return;
+    }
+    
+    // Tạo một cửa sổ ẩn/popup mới để chứa ảnh in
+    const printWindow = window.open('', '_blank');
+    
+    // Viết HTML vào cửa sổ mới với bức ảnh vừa tạo
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>In Báo Giá TSS</title>
+                <style>
+                    /* Reset margin để ảnh in ra in vừa vặn khổ giấy */
+                    body { 
+                        margin: 0; 
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: flex-start;
+                        padding-top: 20px;
+                    }
+                    /* Ép ảnh không được to quá khổ A4 */
+                    img { 
+                        max-width: 100%; 
+                        height: auto; 
+                    }
+                    /* Ẩn tiêu đề URL và ngày tháng mặc định của máy in (tùy trình duyệt) */
+                    @page { margin: 0.5cm; }
+                </style>
+            </head>
+            <body>
+                <img src="${currentImageDataUrl}" onload="window.print(); window.close();">
+            </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+}
